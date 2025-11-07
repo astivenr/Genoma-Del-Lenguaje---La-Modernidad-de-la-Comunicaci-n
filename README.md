@@ -2,6 +2,7 @@
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Project Status: Active](https://img.shields.io/badge/Status-Active-brightgreen.svg)]()
+[![Open Source](https://img.shields.io/badge/Open-Source-blue.svg)]()
 
 **Descifrando el ADN de la comunicación consciente**  
 *Proyecto BioSTair-11 ORG · Red de Sistemas Multinúcleo Conscientes*
