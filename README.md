@@ -285,4 +285,10 @@ users (feedback)           → Validación en terreno real
 **Creative Commons Attribution 4.0 International**
 **¿Procedemos a crear el repositorio en GitHub?** 🚀
 
-**Este README no solo describe el proyecto - ¡lo encarna!** ✨
+## 📞 CONECTA CON EL PROYECTO
+
+**🌐 Repositorio Principal:** [Genoma Del Lenguaje](https://github.com/astivenr/Genoma-Del-Lenguaje---La-Modernidad-de-la-Comunicaci-n)
+
+**📧 Contacto:** [A través de issues en este repositorio]
+
+**🏷️ Hashtags:** #GenomaLenguaje #ComunicacionConsciente #SIMCore
