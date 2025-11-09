@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- 
+        Chosen Palette: Warm Neutrals (Beige, Stone, Warm Green)
+        Application Structure Plan: Se ha diseñado una SPA con pestañas para guiar al usuario a través de una narrativa lógica: 1) El Problema (estado actual, riesgos, casos humanos), 2) Costos y Beneficios (análisis financiero y social), 3) Evidencia Global (casos de éxito interactivos), 4) La Propuesta (plan de 4 fases), 5) Objeciones (FAQ interactivo) y 6) Acción. Esta estructura está diseñada para la exploración y persuasión, en lugar de replicar pasivamente el orden del informe.
+        Visualization & Content Choices:
+        - Problema: Tarjetas grandes con íconos Unicode para estadísticas clave (3.3M usuarios 👤, 28% prisioneros ⚖️).
+        - Costos/Beneficios: Un gráfico de barras (Chart.js) para la comparación financiera ($520B vs $800B-$1.2T), ya que es la forma más clara de mostrar este contraste.
+        - Evidencia Global: Un sistema de pestañas (botones JS) para explorar Uruguay, Portugal y Colorado, manteniendo la interfaz limpia.
+        - Propuesta: Un diagrama de proceso HTML/CSS (flexbox) para mostrar las 4 fases.
+        - Objeciones: Un acordeón de JS simple para un formato FAQ.
+        CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urgencia de la Regulación del Cannabis en Colombia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+        .nav-button.active {
+            border-bottom-color: #15803d; /* green-700 */
+            color: #15803d;
+            font-weight: 700;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            background-color: #166534; /* green-800 */
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 leading-relaxed">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+
+        <!-- Encabezado y Título -->
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-5xl font-bold text-green-900 mb-2">Urgencia de la Regulación del Cannabis</h1>
+            <p class="text-lg md:text-xl text-stone-700">Un análisis interactivo sobre la evidencia y la propuesta de política pública para Colombia.</p>
+        </header>
+
+        <!-- Navegación Principal de la SPA -->
+        <nav class="bg-white shadow-md rounded-lg mb-10 sticky top-4 z-10 p-2">
+            <ul class="flex flex-wrap justify-center gap-2 md:gap-4">
+                <li><button class="nav-button active p-3 text-sm md:text-base" data-section="problema">El Problema</button></li>
+                <li><button class="nav-button p-3 text-sm md:text-base" data-section="costos">Costo-Beneficio</button></li>
+                <li><button class="nav-button p-3 text-sm md:text-base" data-section="evidencia">Evidencia Global</button></li>
+                <li><button class="nav-button p-3 text-sm md:text-base" data-section="propuesta">La Propuesta</button></li>
+                <li><button class="nav-button p-3 text-sm md:text-base" data-section="objeciones">Objeciones</button></li>
+                <li><button class="nav-button p-3 text-sm md:text-base" data-section="accion">Acción</button></li>
+            </ul>
+        </nav>
+
+        <!-- Contenedor Principal de Secciones -->
+        <main>
+
+            <!-- 1. El Problema -->
+            <section id="section-problema" class="page-section space-y-8">
+                <p class="text-lg text-stone-700 text-center max-w-3xl mx-auto">La prohibición ha fallado. El sistema actual no previene el consumo, pero sí genera riesgos sanitarios, criminaliza a los jóvenes y financia el conflicto armado. Esta sección explora la magnitud del problema.</p>
+                
+                <!-- Estadísticas Clave -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <span class="text-5xl">👤</span>
+                        <p class="text-4xl font-bold text-green-900 my-2">3.3 Millones</p>
+                        <p class="text-stone-600">De colombianos han consumido cannabis (11.5% de 18-65 años).</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <span class="text-5xl">⚖️</span>
+                        <p class="text-4xl font-bold text-green-900 my-2">28%</p>
+                        <p class="text-stone-600">De la población carcelaria es por delitos de drogas, afectando desproporcionadamente a jóvenes.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <span class="text-5xl">🛡️</span>
+                        <p class="text-4xl font-bold text-green-900 my-2">30-40%</p>
+                        <p class="text-stone-600">De ingresos de grupos armados provienen del narcotráfico, financiado por el mercado ilegal.</p>
+                    </div>
+                </div>
+
+                <!-- Consecuencias del Mercado Negro -->
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-bold text-center text-green-900">Consecuencias Directas del Mercado Negro</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-red-500">
+                            <h4 class="text-xl font-bold mb-2">Riesgo Sanitario 🩺</h4>
+                            <p class="text-stone-600">Contaminación con pesticidas, metales pesados y THC no estandarizado. La prohibición ofrece **cero control de calidad**.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-yellow-500">
+                            <h4 class="text-xl font-bold mb-2">Riesgo Legal/Social ⚖️</h4>
+                            <p class="text-stone-600">Criminalización de la dosis personal y antecedentes penales que destruyen trayectorias vitales y académicas. La represión es **arbitraria**.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-blue-500">
+                            <h4 class="text-xl font-bold mb-2">Riesgo Económico/Violencia 💸</h4>
+                            <p class="text-stone-600">Financiamiento directo a estructuras de crimen organizado y violencia asociada a transacciones ilegales. El gasto en represión es **ineficaz**.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Casos Humanos -->
+                <div class="space-y-4">
+                     <h3 class="text-2xl font-bold text-center text-green-900">Casos Humanos Concretos</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-lg shadow-lg">
+                            <h4 class="text-xl font-bold mb-2">Caso 1: Estudiante con Antecedentes</h4>
+                            <p class="text-stone-600 mb-4">"Estudiante de ingeniería, 22 años. Consume ocasionalmente para manejar estrés. Debe comprar en mercado negro sin saber qué contiene. Vive con miedo constante de antecedentes que arruinarían su futuro."</p>
+                            <p class="font-semibold text-green-900">¿Merece criminalización o acceso seguro?</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-lg">
+                            <h4 class="text-xl font-bold mb-2">Caso 2: Paciente en la Ilegalidad</h4>
+                            <p class="text-stone-600 mb-4">"Persona con dolor crónico. Cannabis le funciona mejor que opioides, pero el acceso legal medicinal es costoso e inaccesible. Recurre a mercado negro por necesidad, no por elección."</p>
+                            <p class="font-semibold text-green-900">¿Salud pública o riesgo sanitario?</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Costo-Beneficio -->
+            <section id="section-costos" class="page-section hidden space-y-8">
+                <p class="text-lg text-stone-700 text-center max-w-3xl mx-auto">Mantener la prohibición es fiscal y socialmente insostenible. Esta sección compara los costos actuales de la represión contra los beneficios potenciales de una regulación inteligente.</p>
+                
+                <!-- Gráfico de Costo-Beneficio -->
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-bold text-center text-green-900 mb-4">Análisis Costo-Beneficio (Proyección Anual en COP)</h3>
+                    <div class="chart-container">
+                        <canvas id="costBenefitChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Otros Beneficios -->
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <span class="text-5xl">🧑‍🌾</span>
+                        <p class="text-4xl font-bold text-green-900 my-2">40k - 60k</p>
+                        <p class="text-stone-600">Empleos formales directos estimados (cultivo, procesamiento, distribución).</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <span class="text-5xl">🕊️</span>
+                        <p class="text-4xl font-bold text-green-900 my-2">Impacto en Seguridad</p>
+                        <p class="text-stone-600">Desfinanciamiento de grupos armados y reorientación de recursos policiales a crímenes de alto impacto.</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- 3. Evidencia Global -->
+            <section id="section-evidencia" class="page-section hidden space-y-8">
+                <p class="text-lg text-stone-700 text-center max-w-3xl mx-auto">Colombia no tiene que inventar la rueda. Países que han priorizado la salud pública y el control sobre la represión demuestran resultados positivos. Explora los datos de estos modelos.</p>
+
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="flex flex-wrap justify-center gap-2 mb-6">
+                        <button class="tab-button active text-base md:text-lg font-semibold py-2 px-6 rounded-full" data-tab="uruguay">Uruguay (2013)</button>
+                        <button class="tab-button bg-stone-100 text-stone-700 text-base md:text-lg font-semibold py-2 px-6 rounded-full" data-tab="portugal">Portugal (2001)</button>
+                        <button class="tab-button bg-stone-100 text-stone-700 text-base md:text-lg font-semibold py-2 px-6 rounded-full" data-tab="colorado">Colorado, USA (2014)</button>
+                    </div>
+
+                    <div id="tab-content-container" class="mt-4">
+                        <div id="tab-uruguay" class="tab-content space-y-3">
+                            <h3 class="text-2xl font-bold text-green-900">Uruguay: Regulación Integral</h3>
+                            <ul class="list-disc list-inside text-stone-700 space-y-2">
+                                <li><span class="font-semibold">Reducción del Mercado Negro:</span> ~58% en el primer año.</li>
+                                <li><span class="font-semibold">Control de Calidad:</span> El Estado garantiza THC estandarizado y cero contaminantes.</li>
+                                <li><span class="font-semibold">Precio Competitivo:</span> $1.30 USD/gramo, compitiendo eficazmente con el mercado ilegal.</li>
+                                <li><span class="font-semibold">Modelo:</span> Sistema de farmacias y registro de usuarios con privacidad protegida.</li>
+                            </ul>
+                        </div>
+                        <div id="tab-portugal" class="tab-content hidden space-y-3">
+                            <h3 class="text-2xl font-bold text-green-900">Portugal: Despenalización y Salud Pública</h3>
+                             <ul class="list-disc list-inside text-stone-700 space-y-2">
+                                <li><span class="font-semibold">Salud Pública:</span> Reducción del 95% en muertes relacionadas con drogas.</li>
+                                <li><span class="font-semibold">Sistema Judicial:</span> Reducción del 50% en encarcelamientos por delitos de drogas.</li>
+                                <li><span class="font-semibold">Enfoque:</span> El presupuesto se reorientó de la represión al tratamiento voluntario y la educación.</li>
+                            </ul>
+                        </div>
+                        <div id="tab-colorado" class="tab-content hidden space-y-3">
+                            <h3 class="text-2xl font-bold text-green-900">Colorado, USA: Legalización Estatal</h3>
+                             <ul class="list-disc list-inside text-stone-700 space-y-2">
+                                <li><span class="font-semibold">Beneficio Fiscal:</span> $423 millones USD en ingresos fiscales solo en 2021.</li>
+                                <li><span class="font-semibold">Empleo Formal:</span> Creación de más de 35,000 empleos formales.</li>
+                                <li><span class="font-semibold">Justicia Penal:</span> Reducción del 68% en los arrestos por cannabis.</li>
+                                <li><span class="font-semibold">Destino Fondos:</span> Financiación de educación y programas de salud.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- 4. La Propuesta -->
+            <section id="section-propuesta" class="page-section hidden space-y-8">
+                <p class="text-lg text-stone-700 text-center max-w-3xl mx-auto">Proponemos una transición planeada, rigurosa y gradual. El objetivo es proteger al consumidor, golpear al crimen organizado y generar desarrollo económico basado en la evidencia.</p>
+                
+                <h3 class="text-2xl font-bold text-center text-green-900">Un Modelo Gradual en 4 Fases</h3>
+                <div class="flex flex-col md:flex-row justify-between gap-4">
+                    
+                    <div class="flex-1 bg-white p-5 rounded-lg shadow-lg text-center">
+                        <div class="flex items-center justify-center w-12 h-12 bg-green-800 text-white font-bold rounded-full mx-auto mb-3 text-xl">1</div>
+                        <h4 class="text-lg font-bold text-green-900">Despenalización Efectiva</h4>
+                        <p class="text-sm text-stone-600">Inmediato. Eliminar antecedentes por dosis personal y aplicar amnistía. Liberar recursos policiales.</p>
+                    </div>
+
+                    <div class="flex-1 bg-white p-5 rounded-lg shadow-lg text-center">
+                        <div class="flex items-center justify-center w-12 h-12 bg-green-800 text-white font-bold rounded-full mx-auto mb-3 text-xl">2</div>
+                        <h4 class="text-lg font-bold text-green-900">Regulación Medicinal Ampliada</h4>
+                        <p class="text-sm text-stone-600">6 meses. Reducir costos y trámites. Garantizar acceso seguro a pacientes.</p>
+                    </div>
+
+                    <div class="flex-1 bg-white p-5 rounded-lg shadow-lg text-center">
+                        <div class="flex items-center justify-center w-12 h-12 bg-green-800 text-white font-bold rounded-full mx-auto mb-3 text-xl">3</div>
+                        <h4 class="text-lg font-bold text-green-900">Modelo de Regulación Recreativa</h4>
+                        <p class="text-sm text-stone-600">12-18 meses. Sistema dual (farmacias + clubes). Control de calidad estatal. Generar ingresos fiscales.</p>
+                    </div>
+
+                    <div class="flex-1 bg-white p-5 rounded-lg shadow-lg text-center">
+                        <div class="flex items-center justify-center w-12 h-12 bg-green-800 text-white font-bold rounded-full mx-auto mb-3 text-xl">4</div>
+                        <h4 class="text-lg font-bold text-green-900">Desarrollo Económico</h4>
+                        <p class="text-sm text-stone-600">2+ años. Incentivos a pequeños cultivadores. Generar 40k-60k empleos formales.</p>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- 5. Objeciones -->
+            <section id="section-objeciones" class="page-section hidden space-y-8">
+                 <p class="text-lg text-stone-700 text-center max-w-3xl mx-auto">Un debate honesto requiere responder a las preocupaciones comunes con datos, no con miedo. Aquí respondemos a las objeciones más frecuentes.</p>
+                 
+                 <div class="max-w-2xl mx-auto space-y-4">
+                    
+                    <div class="bg-white rounded-lg shadow-lg">
+                        <button class="accordion-toggle w-full p-5 text-left font-semibold text-lg text-green-900 flex justify-between items-center">
+                            "¿No aumentará el consumo?"
+                            <span class="text-2xl text-green-800 transform transition-transform duration-300">+</span>
+                        </button>
+                        <div class="accordion-content px-5 pb-5 text-stone-700">
+                            <p>La evidencia de Uruguay y Portugal muestra que la regulación **no aumenta significativamente el consumo**. Lo que sí aumenta es el consumo **seguro, informado** y la capacidad de buscar ayuda sin miedo a la criminalización.</p>
+                        </div>
+                    </div>
+                    
+                     <div class="bg-white rounded-lg shadow-lg">
+                        <button class="accordion-toggle w-full p-5 text-left font-semibold text-lg text-green-900 flex justify-between items-center">
+                            "¿Qué pasa con los jóvenes?"
+                            <span class="text-2xl text-green-800 transform transition-transform duration-300">+</span>
+                        </button>
+                        <div class="accordion-content px-5 pb-5 text-stone-700">
+                            <p>El mercado negro **no pide identificación**. La regulación, al igual que con el alcohol o el tabaco, permite un **control de edad estricto** en el punto de venta. Además, los impuestos generados pueden financiar programas de educación y prevención basados en evidencia, no en el miedo.</p>
+                        </div>
+                    </div>
+
+                     <div class="bg-white rounded-lg shadow-lg">
+                        <button class="accordion-toggle w-full p-5 text-left font-semibold text-lg text-green-900 flex justify-between items-center">
+                            "¿No es peligroso?"
+                            <span class="text-2xl text-green-800 transform transition-transform duration-300">+</span>
+                        </button>
+                        <div class="accordion-content px-5 pb-5 text-stone-700">
+                            <p>Lo más peligroso es el **mercado negro sin control**. La prohibición expone a los consumidores a productos contaminados y a la violencia. La regulación garantiza **pureza, dosificación conocida e información clara**, reduciendo drásticamente el daño.</p>
+                        </div>
+                    </div>
+
+                 </div>
+            </section>
+
+            <!-- 6. Llamado a la Acción -->
+            <section id="section-accion" class="page-section hidden space-y-8 text-center">
+                <p class="text-lg text-stone-700 text-center max-w-3xl mx-auto">La prohibición es una política de desastre que ha generado violencia y criminalización. La regulación es una política de Estado inteligente, basada en la ciencia y la compasión.</p>
+                
+                <div class="bg-white p-8 rounded-lg shadow-2xl border-t-4 border-green-800">
+                    <h3 class="text-3xl font-bold text-green-900 mb-4">La pregunta no es si regular.</h3>
+                    <p class="text-xl text-stone-800 font-semibold">Es cuántas vidas más se deben sacrificar y cuánto dinero más debe ir a la caja del crimen antes de que actuemos.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h4 class="text-xl font-bold text-green-900 mb-2">A la UNGRD y Legisladores</h4>
+                        <p class="text-stone-700">El prohibicionismo es un **Riesgo Estructural de Desastre Social**. Se debe radicar y priorizar un proyecto de ley con enfoque de salud pública, justicia social y desarrollo económico.</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h4 class="text-xl font-bold text-green-900 mb-2">A la Sociedad Civil y Medios</h4>
+                        <p class="text-stone-700">Exigir y promover un debate público informado, basado en datos, no en prejuicios. La cobertura responsable y las voces de expertos y afectados son cruciales.</p>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+        <!-- Pie de Página -->
+        <footer class="mt-16 pt-8 border-t border-stone-300 text-center text-stone-500 text-sm">
+            <p>Este análisis interactivo se basa en el "Documento de Incidencia Política: Urgencia de la Regulación Integral del Cannabis en Colombia".</p>
+            <p class="mt-2">Fuentes clave: Ministerio de Justicia (ENCSPA), Junta Nacional de Drogas (Uruguay), Transform Drug Policy Foundation, Fundación PARES, Elementa DDHH.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            // --- Lógica del Gráfico de Barras (Chart.js) ---
+            const costBenefitCanvas = document.getElementById('costBenefitChart');
+            if (costBenefitCanvas) {
+                const ctx = costBenefitCanvas.getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Costo Prohibición (Anual)', 'Beneficio Regulación (Min)', 'Beneficio Regulación (Max)'],
+                        datasets: [{
+                            label: 'Millones de COP',
+                            data: [
+                                520000, // Costo Prohibición ~ $520,000 millones
+                                800000, // Beneficio Regulación (Min) ~ $800,000 millones
+                                1200000 // Beneficio Regulación (Max) ~ $1.2 billones
+                            ],
+                            backgroundColor: [
+                                'rgba(220, 38, 38, 0.7)', // red-600
+                                'rgba(22, 163, 74, 0.7)', // green-600
+                                'rgba(21, 128, 61, 0.7)'  // green-700
+                            ],
+                            borderColor: [
+                                'rgba(220, 38, 38, 1)',
+                                'rgba(22, 163, 74, 1)',
+                                'rgba(21, 128, 61, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(context.parsed.y * 1000000);
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Miles de Millones de COP'
+                                },
+                                ticks: {
+                                    callback: function(value, index, ticks) {
+                                        return '$' + (value / 1000) + 'B';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // --- Lógica de Navegación de la SPA ---
+            const navButtons = document.querySelectorAll('.nav-button');
+            const sections = document.querySelectorAll('.page-section');
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetSection = button.dataset.section;
+
+                    // Ocultar todas las secciones
+                    sections.forEach(section => {
+                        section.classList.add('hidden');
+                    });
+
+                    // Mostrar la sección objetivo
+                    const activeSection = document.getElementById('section-' + targetSection);
+                    if (activeSection) {
+                        activeSection.classList.remove('hidden');
+                    }
+
+                    // Actualizar estado activo del botón
+                    navButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    button.classList.add('active');
+
+                    // Scroll suave al inicio de la sección (en móvil)
+                    window.scrollTo({
+                        top: activeSection.offsetTop - 100, // Ajuste por el nav pegajoso
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // --- Lógica de Pestañas (Evidencia Global) ---
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTab = button.dataset.tab;
+
+                    // Ocultar todos los contenidos
+                    tabContents.forEach(content => {
+                        content.classList.add('hidden');
+                    });
+
+                    // Mostrar el contenido objetivo
+                    const activeContent = document.getElementById('tab-' + targetTab);
+                    if (activeContent) {
+                        activeContent.classList.remove('hidden');
+                    }
+
+                    // Actualizar estado activo del botón
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.classList.add('bg-stone-100', 'text-stone-700');
+                    });
+                    button.classList.add('active');
+                    button.classList.remove('bg-stone-100', 'text-stone-700');
+                });
+            });
+
+            // --- Lógica de Acordeón (Objeciones) ---
+            const accordionToggles = document.querySelectorAll('.accordion-toggle');
+
+            accordionToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const content = toggle.nextElementSibling;
+                    const icon = toggle.querySelector('span');
+
+                    if (content.style.maxHeight) {
+                        // Cerrar
+                        content.style.maxHeight = null;
+                        icon.classList.remove('rotate-45');
+                    } else {
+                        // Abrir
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        icon.classList.add('rotate-45');
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
